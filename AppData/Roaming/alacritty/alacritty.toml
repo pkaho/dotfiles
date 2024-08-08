@@ -1,0 +1,84 @@
+import = [
+  "~/AppData/Roaming/alacritty/catppuccin-mocha.toml",
+  "~/AppData/Roaming/alacritty/rose-pine.toml",
+  "~/.config/alacritty/catppuccin-mocha.toml",
+  "~/.config/alacritty/rose-pine.toml",
+]
+
+live_config_reload = true
+working_directory = "None"
+
+[shell]
+# program = "D:/Applications/Scoop/apps/pwsh/current/pwsh.exe"
+program = "pwsh"
+args = ["-l"]
+# shell = "D:/Applications/Scoop/apps/pwsh/current/pwsh.exe"
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+normal = { family = "FiraCode Nerd Font", style = "Regular" }
+bold = { family = "FiraCode Nerd Font", style = "Bold" }
+italic = { family = "FiraCode Nerd Font", style = "Italic" }
+# [font]
+# normal = { family = "Monaspace Argon", style = "Regular" }
+# bold = { family = "Monaspace Argont", style = "Bold" }
+# italic = { family = "Monaspace Argont", style = "Italic" }
+size = 13
+
+[window]
+dimensions = { columns = 75, lines = 25 }
+position = { x = 800, y = 200 }
+startup_mode = "Windowed"
+title = "Putty"
+dynamic_title = false
+decorations_theme_variant = "None"
+decorations = "Full"                      # None, Full
+opacity = 0.9
+blur = true
+
+[scrolling]
+history = 10000
+multiplier = 3
+
+[colors]
+cursor = { text = "#000000", cursor = "#ff8f5f" }
+footer_bar = { foreground = "#ff8f5f", background = "#000000" }
+
+[bell]
+animation = "Linear"
+duration = 0
+
+[[hints.enabled]]
+action = "Copy"
+binding = { key = "h", mods = "alt" }
+regex = "[a-f0-9]{6,}"
+
+[[hints.enabled]]
+# command = "xdg-open" # On Linux/BSD
+# command = "open" # On macOS
+command = { program = "cmd", args = ["/c", "start", ""] }                                                                                                 # On Windows
+hyperlinks = true
+post_processing = true
+persist = false
+mouse.enabled = true
+binding = { key = "e", mods = "alt" }
+regex = "(ipfs:|ipns:|magnet:|mailto:|gemini://|gopher://|https://|http://|news:|file:|git://|ssh:|ftp://)[^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`]+"
+
+[keyboard]
+# mode = "AppCursor" | "AppKeypad" | "Search" | "Alt" | "Vi"
+bindings = [
+  { key = "b", mods = "alt", action = "Minimize" },
+  { key = "Enter", mods = "alt", action = "ToggleFullscreen" },
+  { key = "n", mods = "alt", action = "ToggleMaximized" },
+  { key = "m", mods = "alt", action = "ToggleMaximized" },
+  { key = "n", mods = "Control|Shift", action = "CreateNewWindow" },
+  { key = " ", mods = "Control|Shift", action = "ToggleViMode" },
+
+  # Search
+  { key = "h", mods = "Control|Shift|Alt", mode = "Search", action = "CreateNewWindow" },
+
+  # Vi
+  { key = "o", mode = "Vi", action = "Open" },
+]
