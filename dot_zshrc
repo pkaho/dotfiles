@@ -1,0 +1,110 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+setopt autocd               # 允许直接输入路径名直接进入目录
+setopt beep                 # 控制在输入错误时或警告时产生蜂鸣声
+setopt no_nomatch           # 通配符模式没有匹配到任何文件时，zsh 保持静默不显示错误消息
+setopt notify               # 后台作业完成后，显示一个消息通知用户
+
+# History
+setopt HIST_IGNORE_ALL_DUPS # 启用历史命令中不允许出现重复命令
+setopt HIST_IGNORE_SPACE    # 忽略以空格开头的命令
+setopt appendhistory        # 启用将新的历史命令追加到已存在的历史文件中
+setopt extended_history     # 控制是否在历史记录中保存时间戳和命令执行时的目录位置信息
+setopt inc_append_history   # 启用该选项后，Zsh 会在命令行上执行命令时立即将它们追加到历史记录中，而不是等到退出 Shell 时再做
+HISTFILE=~/.zsh_history
+HISTSIZE=123456789
+# HISTCONTROL=ignoreboth
+HISTTIMEFORMAT="%Y-%m-%d %T "
+SAVEHIST=123456789
+
+# setopt correct_all # 如果输入的命令中有拼写错误，将自动修正
+
+# dirs
+setopt autopushd       # 启用了 autopushd，每次用户切换目录时，当前目录都会被推送到目录堆栈中。这样，用户可以通过 cd - 来快速切换回上次访问的目录
+setopt pushdminus      # 启用了 pushdminus，则在使用 cd - 切换回上次访问的目录时，当前目录会被推送到目录堆栈中。这将创建一个返回上次目录的循环堆栈
+setopt pushdsilent     # 启用了 pushdsilent 后，切换目录时不会显示目录堆栈中的内容
+setopt pushdtohome     # 启用了 pushdtohome 后，在没有参数的情况下执行 pushd 会将当前目录推入堆栈并切换到家目录
+setopt pushdignoredups # 启用了 pushdignoredups 后，pushd 将忽略重复的目录
+
+# Set editor default keymap to emacs (`-e`) or vi (`-v`)
+# if -v, Press esc to use vim mode
+bindkey -e
+
+# Remove path separator from WORDCHARS.
+WORDCHARS=${WORDCHARS//[\/]}
+
+# ------------------
+# Initialize modules
+# ------------------
+ZIM_HOME=${ZDOTDIR:-${HOME}}/.zim
+# Download zimfw plugin manager if missing.
+if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
+  if (( ${+commands[curl]} )); then
+    curl -fsSL --create-dirs -o ${ZIM_HOME}/zimfw.zsh \
+        https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+  else
+    mkdir -p ${ZIM_HOME} && wget -nv -O ${ZIM_HOME}/zimfw.zsh \
+        https://github.com/zimfw/zimfw/releases/latest/download/zimfw.zsh
+  fi
+fi
+# Install missing modules, and update ${ZIM_HOME}/init.zsh if missing or outdated.
+if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
+  source ${ZIM_HOME}/zimfw.zsh init -q
+fi
+# Initialize modules.
+source ${ZIM_HOME}/init.zsh
+
+# Disable automatic widget re-binding on each precmd. This can be set when
+# zsh-users/zsh-autosuggestions is the last module in your ~/.zimrc.
+ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+
+# command not found prompt
+# source /etc/zsh_command_not_found
+
+#
+# zsh-autosuggestions
+#
+# Disable automatic widget re-binding on each precmd. This can be set when
+# zsh-users/zsh-autosuggestions is the last module in your ~/.zimrc.
+ZSH_AUTOSUGGEST_MANUAL_REBIND=1
+
+#
+# zsh-history-substring-search
+#
+zmodload -F zsh/terminfo +p:terminfo
+# Bind ^[[A/^[[B manually so up/down works both before and after zle-line-init
+for key ('^[[A' '^P' ${terminfo[kcuu1]}) bindkey ${key} history-substring-search-up
+for key ('^[[B' '^N' ${terminfo[kcud1]}) bindkey ${key} history-substring-search-down
+for key ('k') bindkey -M vicmd ${key} history-substring-search-up
+for key ('j') bindkey -M vicmd ${key} history-substring-search-down
+unset key
+
+#
+# zsh-syntax-highlighting
+#
+# See https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/docs/highlighters.md
+ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets)
+
+#
+# zsh-autocomplete
+#
+skip_global_compinit=1
+# bindkey '^I' menu-complete
+# bindkey "$terminfo[kcbt]" reverse-menu-complete
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+eval "$(thefuck --alias)"
+eval "$(zoxide init zsh)"
+
+# other zsh file
+source "$HOME/.config/zsh/aliases.zsh"
+source "$HOME/.config/zsh/exports.zsh"
+source "$HOME/.config/zsh/functions.zsh"
