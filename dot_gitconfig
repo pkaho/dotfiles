@@ -1,0 +1,39 @@
+[user]
+	name = pkaho
+	email = pkaho@qq.com
+[http]
+	proxy = 127.0.0.1:7890
+[https]
+	proxy = 127.0.0.1:7890
+[credential "helperselector"]
+	selected = manager
+[core]
+	paper = delta
+[interactive]
+	diffFilter = delta -- color-only
+[delta]
+	navigate = true
+	side-by-side = true
+[merge]
+	conflictstyle = diff3
+[diff]
+	colorMoved = default
+[pull]
+	rebase = false
+[fetch]
+	prune = false
+[rebase]
+	autoStash = false
+	autosquash = false
+	updateRefs = false
+[maintenance]
+	repo = /home/panjh/.local/share/znap
+	repo = /home/panjh/.local/share/marlonrichert/zsh-autocomplete
+	repo = /home/panjh/.local/share/ohmyzsh/ohmyzsh
+	repo = /home/panjh/.local/share/sindresorhus/pure
+	repo = /home/panjh/.local/share/zsh-users/zsh-autosuggestions
+	repo = /home/panjh/.local/share/zsh-users/zsh-completions
+	repo = /home/panjh/.local/share/zsh-users/zsh-history-substring-search
+	repo = /home/panjh/.local/share/zsh-users/zsh-syntax-highlighting
+[credential]
+	helper = store
