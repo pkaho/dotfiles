@@ -3,28 +3,29 @@ local wezterm = require("wezterm")
 local M = {}
 
 local palette = {
-	black = "#000000",
-	coral = "#ff8f5f",
+	black   = "#000000",
+	coral   = "#ff8f5f",
 	fuchsia = "#df31fb",
-	linen = "#ebe8db",
+	linen   = "#ebe8db",
 
 	tab_title_colors = {
 		default = { fg = "#808080", bg = "#000000" }, -- gray
-		hover = { fg = "#5d4c52", bg = "#000000" }, -- dimgray
-		active = { fg = "#f06060", bg = "#000000" }, -- salmon
+		hover   = { fg = "#5d4c52", bg = "#000000" }, -- dimgray
+		active  = { fg = "#f06060", bg = "#000000" }, -- salmon
 	},
 
 	right_status_colors = {
-		left = { fg = "#1e90ff", bg = "#000000" }, -- dodgerblue
+		left   = { fg = "#1e90ff", bg = "#000000" }, -- dodgerblue
 		middle = { fg = "#ff4f81", bg = "#000000" }, -- deeppink
-		right = { fg = "#ff8f5f", bg = "#000000" }, -- coral
-		split = { fg = "#5d4a44", bg = "#000000" }, -- dimgray
+		right  = { fg = "#ff8f5f", bg = "#000000" }, -- coral
+		split  = { fg = "#5d4a44", bg = "#000000" }, -- dimgray
 	},
 }
 
 -- custom colorscheme
-local catppucin_mocha = wezterm.color.get_builtin_schemes()["Catppuccin Mocha"]
-local rose_pine = require("config.colors.rose-pine").colors()
+local catppucin = wezterm.color.get_builtin_schemes()["Catppuccin Mocha"] -- Mocha, Macchiato, Frappe, Latte
+local Rose = wezterm.plugin.require("https://github.com/neapsix/wezterm").main -- main, moon, dawn
+local rose_pine = Rose.colors()
 
 function M.palette()
 	return palette
@@ -34,13 +35,12 @@ function M.window_frame()
 	return {
 		font = wezterm.font({ family = "FiraCode Nerd Font" }),
 		font_size = 11,
-		active_titlebar_bg = "#000000",
+		active_titlebar_bg   = "#000000",
 		inactive_titlebar_bg = "#000000",
 	}
 end
 
 function M.colors()
-	local colors = catppucin_mocha
 	local colors = rose_pine
 
 	-- custom colors

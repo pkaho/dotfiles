@@ -21,9 +21,9 @@ local config = {
 	line_height = 1.2,
 	font_size = 14,
 	font = wezterm.font_with_fallback({
-		{ family = "Monaspace Argon", weight = "Regular" }, -- scoop install monaspace
+		{ family = "Monaspace Argon",    weight = "Regular" }, -- scoop install monaspace
 		{ family = "FiraCode Nerd Font", weight = "Regular" }, -- scoop install firacode-nf
-		{ family = "LXGW WenKai", weight = "Regular" }, -- scoop install lxgwwenkai
+		{ family = "LXGW WenKai",        weight = "Regular" }, -- scoop install lxgwwenkai
 	}),
 
 	-- scrollbar
