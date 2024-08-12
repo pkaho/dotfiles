@@ -85,10 +85,11 @@ function yy {
 }
 
 # scoop
-function si { scoop install $args }
-function ss { scoop search $args }
-function su { scoop update $args }
-function sx { scoop uninstall $args }
+function i { scoop install $args }
+function s { scoop search $args }
+function u { scoop update $args }
+function x { scoop uninstall $args }
+function scl { scoop cleanup -k $args }
 function sl { scoop list }
 
 # chezmoi

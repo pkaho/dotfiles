@@ -21,7 +21,7 @@ if ($host.Name -eq "ConsoleHost")
   Set-PSReadLineOption -EditMode Emacs
 }
 
-function erb { Clear-RecycleBin -Force }
+function crb { Clear-RecycleBin -Force }
 function Lock { rundll32.exe user32.dll, LockWorkStation }
 function rm { Remove-Item -Force -Recurse -Path $args }
 function ckh { Get-PSReadLineOption | rg HistorySavePath }
