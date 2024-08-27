@@ -2,28 +2,10 @@ local wezterm = require("wezterm")
 local act = wezterm.action
 local io = require("io")
 local os = require("os")
-local platform = require("utils.platform")
 
-local workspaces_list
-local text_choices
-
-if platform.is_win then
-	local home = wezterm.home_dir
-	workspaces_list = {
-		{ label = "Home", id = home },
-		{ label = "Neovim", id = home .. "/AppData/Local/nvim/" },
-		{ label = "Alacritty", id = home .. "/AppData/Roaming/alacritty/" },
-		{ label = "Wezterm", id = home .. "/.config/wezterm/" },
-	}
-	text_choices = {
-		{ label = "Wzterm", id = "cd ~/.config/wezterm/" },
-		{ label = "Neovim", id = "cd ~/AppData/local/nvim/" },
-		{ label = "Alacritty", id = "cd ~/AppData/Roaming/alacritty/" },
-	}
-elseif platform.is_linux then
-	workspaces_list = {}
-	text_choices = {}
-end
+-- 暂时不做任何处理
+local workspaces_list = {}
+local text_choices = {}
 
 -- ref: https://wezfurlong.org/wezterm/config/lua/wezterm/on.html#example-opening-whole-scrollback-in-vim
 wezterm.on("trigger-vim-with-scrollback", function(window, pane)
@@ -54,6 +36,17 @@ wezterm.on("normal", function(window)
 	window:restore()
 end)
 
+wezterm.on("toggle-opacity", function(window, pane)
+	local overrides = window:get_config_overrides() or {}
+	if not overrides.window_background_opacity then
+		overrides.win32_system_backdrop = "Auto" -- Auto, Disable, Acrylic, Mica, Tabbed
+		overrides.window_background_opacity = 0.5
+	else
+		overrides.window_background_opacity = nil
+	end
+	window:set_config_overrides(overrides)
+end)
+
 -- `wezterm show-keys --lua` View all current shortcut keys in the terminal
 return {
 	leader = { key = ",", mods = "ALT", timeout_milliseconds = 3000 },
@@ -71,6 +64,7 @@ return {
 		{ key = "p", mods = "CTRL|SHIFT", action = act.ActivateCommandPalette },
 		{ key = "x", mods = "CTRL|SHIFT", action = act.ActivateCopyMode },
 		{ key = "e", mods = "CTRL|SHIFT", action = act.EmitEvent("trigger-vim-with-scrollback") },
+		{ key = "b", mods = "CTRL|SHIFT", action = act.EmitEvent("toggle-opacity") },
 		{ key = "r", mods = "ALT", action = act.ReloadConfiguration },
 		-- copy emoji
 		{
@@ -111,10 +105,10 @@ return {
 		{ key = "h", mods = "CTRL|ALT", action = act.ActivatePaneDirection("Left") },
 		{ key = "l", mods = "CTRL|ALT", action = act.ActivatePaneDirection("Right") },
 		-- resize pane
-		{ key = "LeftArrow", mods = "ALT", action = act.AdjustPaneSize({ "Left", 1 }) },
+		{ key = "LeftArrow",  mods = "ALT", action = act.AdjustPaneSize({ "Left",  1 }) },
 		{ key = "RightArrow", mods = "ALT", action = act.AdjustPaneSize({ "Right", 1 }) },
-		{ key = "UpArrow", mods = "ALT", action = act.AdjustPaneSize({ "Up", 1 }) },
-		{ key = "DownArrow", mods = "ALT", action = act.AdjustPaneSize({ "Down", 1 }) },
+		{ key = "UpArrow",    mods = "ALT", action = act.AdjustPaneSize({ "Up",    1 }) },
+		{ key = "DownArrow",  mods = "ALT", action = act.AdjustPaneSize({ "Down",  1 }) },
 		-- select pane
 		{
 			key = "p",
@@ -142,7 +136,7 @@ return {
 		-- -------------------------------------------------------------------------- --
 		--                               QuickSelectArgs                              --
 		-- -------------------------------------------------------------------------- --
-		-- 禁用微软输入法的`Ctrl+空格`切换中英文的快捷键
+		-- need disable micsoft input method shortcut `Ctrl+space`
 		{ key = " ", mods = "CTRL|SHIFT", action = act.QuickSelect },
 		-- quickly select hash value
 		{
@@ -200,8 +194,8 @@ return {
 				)
 			end),
 		},
+    -- ref: https://wezfurlong.org/wezterm/config/lua/keyassignment/InputSelector.html?h=choices#example-of-choosing-some-canned-text-to-enter-into-the-terminal
 		{
-			-- ref: https://wezfurlong.org/wezterm/config/lua/keyassignment/InputSelector.html?h=choices#example-of-choosing-some-canned-text-to-enter-into-the-terminal
 			key = "r",
 			mods = "CTRL|SHIFT",
 			action = act.InputSelector({
@@ -217,8 +211,19 @@ return {
 				choices = text_choices,
 			}),
 		},
+    {
+      key = 'f',
+      mods = 'LEADER',
+      action = act.ActivateKeyTable({
+        name = 'resize_font',
+        one_shot = false,
+        timeout_miliseconds = 1000,
+      })
+    }
 	},
+
 	mouse_bindings = {
+    -- Open Link
 		{
 			event = { Up = { streak = 1, button = "Left" } },
 			mods = "CTRL",
@@ -240,6 +245,35 @@ return {
 			event = { Drag = { streak = 1, button = "Left" } },
 			mods = "ALT",
 			action = wezterm.action.StartWindowDrag,
+		},
+    -- Scrolling up/down while holding CTRL increases/decreases the font size
+    {
+      event = { Down = { streak = 1, button = { WheelUp = 1} } },
+      mods = "CTRL",
+      action = act.IncreaseFontSize,
+    },
+    {
+      event = { Down = { streak = 1, button = { WheelDown = 1} } },
+      mods = "CTRL",
+      action = act.DecreaseFontSize,
+    },
+	},
+
+	key_tables = {
+		resize_font = {
+			{ key = "k", action = act.IncreaseFontSize },
+			{ key = "j", action = act.DecreaseFontSize },
+			{ key = "r", action = act.ResetFontSize },
+			{ key = "Escape", action = "PopKeyTable" },
+			{ key = "q", action = "PopKeyTable" },
+		},
+		resize_pane = {
+			{ key = "k", action = act.AdjustPaneSize({ "Up", 1 }) },
+			{ key = "j", action = act.AdjustPaneSize({ "Down", 1 }) },
+			{ key = "h", action = act.AdjustPaneSize({ "Left", 1 }) },
+			{ key = "l", action = act.AdjustPaneSize({ "Right", 1 }) },
+			{ key = "Escape", action = "PopKeyTable" },
+			{ key = "q", action = "PopKeyTable" },
 		},
 	},
 }

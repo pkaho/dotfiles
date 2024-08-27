@@ -1,11 +1,13 @@
 local platform = require('utils.platform')
 
-local _prog
-local _menu
+local options = {
+  default_prog = {},
+  launch_menu = {},
+}
 
 if platform.is_win then
-  _prog = { 'pwsh' }
-  _menu = {
+  options.default_prog = { 'pwsh' }
+  options.launch_menu = {
     { label = 'PowerShell Core',    args = { 'pwsh' } },
     { label = 'PowerShell Desktop', args = { 'powershell' } },
     { label = 'Command Prompt',     args = { 'cmd' } },
@@ -20,22 +22,19 @@ if platform.is_win then
     },
   }
 elseif platform.is_linux then
-  _prog = { 'zsh' }
-  _menu = {
+  options.default_prog = { 'zsh' }
+  options.launch_menu = {
     { label = 'Bash', args = { 'bash' } },
     { label = 'Fish', args = { 'fish' } },
     { label = 'Zsh',  args = { 'zsh' } },
   }
 elseif platform.is_mac then
-  _prog = { 'zsh' }
-  _menu = {
+  options.default_prog = { 'zsh' }
+  options.launch_menu = {
     { label = 'Bash', args = { 'bash' } },
     { label = 'Fish', args = { 'fish' } },
     { label = 'Zsh',  args = { 'zsh' } },
   }
 end
 
-return {
-  default_prog = _prog,
-  launch_menu = _menu,
-}
+return options
