@@ -29,7 +29,6 @@ colors.tab_bar = {
 
 colors.cursor_fg = "#FFFFFF"
 colors.cursor_bg = "#F09000"
-colors.compose_cursor = "#54B30E"
 colors.quick_select_label_bg = { AnsiColor = "Navy" }
 colors.quick_select_label_fg = { AnsiColor = "Silver" }
 colors.quick_select_match_bg = { AnsiColor = "Olive" }
