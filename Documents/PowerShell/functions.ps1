@@ -1,18 +1,17 @@
 # <<<<<<<<<<<< Change dir <<<<<<<<<<<<
-# eza
-function l  { eza -1 }
-function la { eza -a }
-function ld { eza -D }
-function lf { eza -f }
-function ll { eza -l -h }
-function lr { eza -l -r -h }
-function ls { eza --no-quotes }
-function lab { eza --absolute }
+function l    { eza -1 }
+function la   { eza -a }
+function ld   { eza -D }
+function lf   { eza -f }
+function ll   { eza -l -h }
+function lr   { eza -l -r -h }
+function ls   { eza --no-quotes }
+function lab  { eza --absolute }
 function tree { eza -T }
 
 function cd.. { cd .. }
-function .. { cd .. }
-function ... { cd ../.. }
+function ..   { cd .. }
+function ...  { cd ../.. }
 # >>>>>>>>>>>> Change dir >>>>>>>>>>>>
 
 # komorebic start/stop
@@ -85,12 +84,12 @@ function yy {
 }
 
 # scoop
-function i { scoop install $args }
-function s { scoop search $args }
-function u { scoop update $args }
-function x { scoop uninstall $args }
-function scl { scoop cleanup -k $args }
-function sl { scoop list }
+function i   { scoop install $args }
+function s   { scoop search $args }
+function u   { scoop update $args }
+function x   { scoop uninstall $args }
+function scl { scoop cleanup -k * }
+function sli { scoop list }
 
 # chezmoi
 function ccd { cd $(chezmoi source-path) }
