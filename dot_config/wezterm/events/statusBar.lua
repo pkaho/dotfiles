@@ -52,12 +52,25 @@ local function get_cwd(cwd_uri)
 end
 
 -- KeyTable notice
-wezterm.on('update-right-status', function(window, pane)
+wezterm.on("update-right-status", function (window, pane)
+  __cells__ = {}
+
   local name = window:active_key_table()
   if name then
-    name = 'TABLE: ' .. name
+    _add_cell("#FAB387", "#000000", icons.SEMI_CIRCLE_LEFT)
+    _add_cell("#1C1B19", "#FAB387", icons.KEY_TABLE)
+    _add_cell("#1C1B19", "#FAB387", ' '..string.upper(name))
+    _add_cell("#FAB387", "#000000", icons.SEMI_CIRCLE_RIGHT)
   end
-  window:set_left_status(name or '')
+
+  if window:leader_is_active() then
+    _add_cell("#FAB387", "#000000", icons.SEMI_CIRCLE_LEFT)
+    _add_cell("#1C1B19", "#FAB387", icons.KEY)
+    _add_cell("#1C1B19", "#FAB387", " ")
+    _add_cell("#FAB387", "#000000", icons.SEMI_CIRCLE_RIGHT)
+  end
+
+  window:set_left_status(wezterm.format(__cells__))
 end)
 
 -- TabTitle
@@ -75,16 +88,16 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 
   for _, pane in ipairs(tab.panes) do
     if pane.has_unseen_output then
-      unseen_output = " " .. icons.GLYPH_CIRCLE
+      unseen_output = " " .. icons.CIRCLE
       break
     end
   end
 
   local status_items = {
-    { colors.fg, colors.bg, icons.GLYPH_SEMI_CIRCLE_LEFT },
+    { colors.fg, colors.bg, icons.SEMI_CIRCLE_LEFT },
     { colors.bg, colors.fg, " " .. title },
     { colors.on, colors.fg, unseen_output },
-    { colors.fg, colors.bg, icons.GLYPH_SEMI_CIRCLE_RIGHT },
+    { colors.fg, colors.bg, icons.SEMI_CIRCLE_RIGHT },
   }
 
   for _, item in ipairs(status_items) do

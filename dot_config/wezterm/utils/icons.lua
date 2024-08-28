@@ -32,11 +32,12 @@ local icons = {
   },
 
   -- tab icons
-  GLYPH_SEMI_CIRCLE_LEFT  = nf.ple_left_half_circle_thick,  -- 
-  GLYPH_SEMI_CIRCLE_RIGHT = nf.ple_right_half_circle_thick, -- 
-  GLYPH_LARGE_CIRCLE      = nf.cod_circle_large_filled,     -- 
-  GLYPH_CIRCLE            = nf.md_record,                   -- 󰑊
-  TRIANGLE_LEFT           = nf.cod_triangle_left,           -- 
+  SEMI_CIRCLE_LEFT  = nf.ple_left_half_circle_thick,  -- 
+  SEMI_CIRCLE_RIGHT = nf.ple_right_half_circle_thick, -- 
+  CIRCLE            = nf.cod_circle_filled,           -- 
+  TRIANGLE_LEFT     = nf.cod_triangle_left,           -- 
+  KEY_TABLE         = nf.md_table_key,                -- 󱏅
+  KEY               = nf.md_key,                      -- 󰌆
 }
 
 return icons
