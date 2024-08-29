@@ -20,6 +20,7 @@ if ($host.Name -eq "ConsoleHost")
 {
   Import-Module PSReadLine
   Set-PSReadLineOption -EditMode Emacs
+  Set-PSReadLineOption -EditMode Vi
 }
 
 function crb  { Clear-RecycleBin -Force }
