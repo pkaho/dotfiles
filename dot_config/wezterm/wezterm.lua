@@ -12,6 +12,7 @@ local function append(new_config)
 end
 
 append(require("config.init"))
+append(require("config.frontend"))
 append(require("config.colorscheme"))
 append(require("config.launch"))
 append(require("config.keymaps"))

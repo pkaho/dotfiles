@@ -1,11 +1,8 @@
 local wezterm = require("wezterm")
-local device = require("utils.gpuAdapter")
 
 local config = {
   animation_fps = 60,
   max_fps = 60,
-  front_end = "WebGpu",
-  webgpu_preferred_adapter = device,
 
   -- window startup size
   initial_cols = 80, -- window width
