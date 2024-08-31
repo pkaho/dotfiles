@@ -29,7 +29,6 @@ local function get_battery_info()
       return icons.discharging[idx] .. ' ' .. string.format('%.0f%%', battery.state_of_charge * 100)
     end
   end
-  return ''
 end
 
 local function get_cwd(cwd_uri)
