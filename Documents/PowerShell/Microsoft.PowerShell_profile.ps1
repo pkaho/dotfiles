@@ -30,9 +30,3 @@ function ckh  { Get-PSReadLineOption | rg HistorySavePath }
 
 # starship config
 Enable-TransientPrompt
-function Invoke-Starship-TransientFunction {
-  &starship module character
-}
-function Invoke-Starship-PreCommand {
-    $host.ui.Write("🚀")
-}
