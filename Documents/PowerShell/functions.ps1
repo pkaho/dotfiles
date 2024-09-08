@@ -85,11 +85,13 @@ function yy {
 
 # scoop
 function i   { scoop install $args }
-function s   { scoop search $args }
 function u   { scoop update $args }
+function s   { scoop search $args }
 function x   { scoop uninstall $args }
+function scr { scoop cache rm $args }
 function scl { scoop cleanup -k * }
 function sli { scoop list }
+function ssa { scoop status }
 
 # chezmoi
 function ccd { cd $(chezmoi source-path) }
