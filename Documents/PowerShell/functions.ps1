@@ -91,7 +91,7 @@ function x   { scoop uninstall $args }
 function scr { scoop cache rm $args }
 function scl { scoop cleanup -k * }
 function sli { scoop list }
-function ssa { scoop status }
+function sst { scoop status }
 
 # chezmoi
 function ccd { cd $(chezmoi source-path) }
