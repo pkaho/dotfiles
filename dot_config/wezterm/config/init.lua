@@ -21,7 +21,7 @@ local config = {
   }),
 
   -- scrollbar
-  enable_scroll_bar = false,
+  enable_scroll_bar = true,
   scrollback_lines = 3500,
 
   -- window

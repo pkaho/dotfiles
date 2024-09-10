@@ -28,11 +28,12 @@ colors.tab_bar = {
 }
 
 colors.cursor_fg = "#FFFFFF"
-colors.cursor_bg = "#F09000"
+colors.cursor_bg = "#FEA90A"
 colors.quick_select_label_bg = { AnsiColor = "Navy" }
 colors.quick_select_label_fg = { AnsiColor = "Silver" }
 colors.quick_select_match_bg = { AnsiColor = "Olive" }
 colors.quick_select_match_fg = { AnsiColor = "Silver" }
+colors.scrollbar_thumb = "#8000AA"
 
 local frame = {
 	font = wezterm.font({ family = "FiraCode Nerd Font", weight = "Bold" }),
