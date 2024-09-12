@@ -1,5 +1,5 @@
-local wezterm = require("wezterm")
-local icons = require("utils.icons")
+local wezterm = require('wezterm')
+local icons = require('utils.icons')
 local nf = wezterm.nerdfonts
 
 local __cells__ = {}
@@ -7,12 +7,12 @@ local __cells__ = {}
 local _add_cell = function(fg, bg, text)
 	table.insert(__cells__, { Foreground = { Color = fg } })
 	table.insert(__cells__, { Background = { Color = bg } })
-	table.insert(__cells__, { Attribute = { Intensity = "Bold" } })
+	table.insert(__cells__, { Attribute = { Intensity = 'Bold' } })
 	table.insert(__cells__, { Text = text })
 end
 
 local function _set_title(tab_info, max_width)
-	local title = tab_info:gsub("%.exe$", "")
+	local title = tab_info:gsub('%.exe$', '')
 	title = wezterm.truncate_right(title, max_width - 2)
 
 	return title
@@ -51,50 +51,50 @@ local function get_cwd(cwd_uri)
 end
 
 -- KeyTable notice
-wezterm.on("update-right-status", function (window, pane)
+wezterm.on('update-right-status', function (window, pane)
   __cells__ = {}
 
   local name = window:active_key_table()
   if name then
-    _add_cell("#FAB387", "#000000", icons.SEMI_CIRCLE_LEFT)
-    _add_cell("#1C1B19", "#FAB387", icons.KEY_TABLE)
-    _add_cell("#1C1B19", "#FAB387", ' '..string.upper(name))
-    _add_cell("#FAB387", "#000000", icons.SEMI_CIRCLE_RIGHT)
+    _add_cell('#FAB387', '#000000', icons.SEMI_CIRCLE_LEFT)
+    _add_cell('#1C1B19', '#FAB387', icons.KEY_TABLE)
+    _add_cell('#1C1B19', '#FAB387', ' '..string.upper(name))
+    _add_cell('#FAB387', '#000000', icons.SEMI_CIRCLE_RIGHT)
   end
 
   if window:leader_is_active() then
-    _add_cell("#FAB387", "#000000", icons.SEMI_CIRCLE_LEFT)
-    _add_cell("#1C1B19", "#FAB387", icons.KEY)
-    _add_cell("#1C1B19", "#FAB387", " ")
-    _add_cell("#FAB387", "#000000", icons.SEMI_CIRCLE_RIGHT)
+    _add_cell('#FAB387', '#000000', icons.SEMI_CIRCLE_LEFT)
+    _add_cell('#1C1B19', '#FAB387', icons.KEY)
+    _add_cell('#1C1B19', '#FAB387', ' ')
+    _add_cell('#FAB387', '#000000', icons.SEMI_CIRCLE_RIGHT)
   end
 
   window:set_left_status(wezterm.format(__cells__))
 end)
 
 -- TabTitle
-wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
+wezterm.on('format-tab-title', function(tab, tabs, panes, config, hover, max_width)
   __cells__ = {}
   local title = _set_title(tab.active_pane.title, max_width)
-  local unseen_output = " "
-  local colors = { fg = "#808080", on = "#fffacd", bg = "#000000" }
+  local unseen_output = ' '
+  local colors = { fg = '#808080', on = '#fffacd', bg = '#000000' }
 
   if tab.is_active then
-    colors.fg = "#F06060"
+    colors.fg = '#F06060'
   elseif hover then
-    colors.fg = "#8A4C52"
+    colors.fg = '#8A4C52'
   end
 
   for _, pane in ipairs(tab.panes) do
     if pane.has_unseen_output then
-      unseen_output = " " .. icons.CIRCLE
+      unseen_output = ' ' .. icons.CIRCLE
       break
     end
   end
 
   local status_items = {
     { colors.fg, colors.bg, icons.SEMI_CIRCLE_LEFT },
-    { colors.bg, colors.fg, " " .. title },
+    { colors.bg, colors.fg, ' ' .. title },
     { colors.on, colors.fg, unseen_output },
     { colors.fg, colors.bg, icons.SEMI_CIRCLE_RIGHT },
   }
@@ -131,11 +131,11 @@ wezterm.on('update-right-status', function(window, pane)
   local cwd = get_cwd(pane:get_current_working_dir())
 
   local status_items = {
-    { "#1E90FF", "#000000", battery_info or cwd },
-    { "#5D4A44", "#000000", ' ' .. icons.TRIANGLE_LEFT .. ' ' },
-    { "#FF4F81", "#000000", icons.calendar .. ' ' .. wezterm.strftime('%a %b %d') },
-    { "#5D4A44", "#000000", ' ' .. icons.TRIANGLE_LEFT .. ' ' },
-    { "#FF8F5F", "#000000", icons.clock .. ' ' .. wezterm.strftime('%H:%M:%S') .. ' ' },
+    { '#1E90FF', '#000000', battery_info or cwd },
+    { '#5D4A44', '#000000', ' ' .. icons.TRIANGLE_LEFT .. ' ' },
+    { '#FF4F81', '#000000', icons.calendar .. ' ' .. wezterm.strftime('%a %b %d') },
+    { '#5D4A44', '#000000', ' ' .. icons.TRIANGLE_LEFT .. ' ' },
+    { '#FF8F5F', '#000000', icons.clock .. ' ' .. wezterm.strftime('%H:%M:%S') .. ' ' },
   }
 
   for _, item in ipairs(status_items) do
