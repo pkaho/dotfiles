@@ -4,16 +4,17 @@ Set-PSReadLineKeyHandler -Key "Ctrl+d" -Function MenuComplete # press ^+d show c
 
 Invoke-Expression (& { (zoxide init powershell | Out-String) })
 
+  Set-Alias vim   nvim
+  Set-Alias vi    nvim
+  Set-Alias grep  rg
+  Set-Alias nvide neovide
+  Set-Alias open  explorer
+  Set-Alias lg    lazygit
+  Set-Alias c     clear
+  Set-Alias ls    eza
+
 # 使用`&`可以引用脚本, 如果你想保持脚本的变量保持在当前脚本, 请使用`.`
 . "$PSScriptRoot/functions.ps1"
-
-Set-Alias vim nvim
-Set-Alias vi nvim
-Set-Alias grep rg
-Set-Alias nvide neovide
-Set-Alias open explorer
-Set-Alias lg lazygit
-Set-Alias c clear
 
 if ($host.Name -eq "ConsoleHost")
 {
